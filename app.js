@@ -6,7 +6,6 @@ const passport = require("passport");
 const morgan = require("morgan");
 const cors = require('cors')
 
-const albumRouter = require("routes/albumRouter")
 const typesRouter = require("routes/typesRouter")
 const elementsRouter = require("routes/elementsRouter")
 const elementRouter = require("routes/elementRouter")
@@ -29,7 +28,6 @@ app.use(function (req, res, next) {
 });
 app.use(authController.checkSecretKey)
 
-app.use("/api/album", albumRouter);
 app.use("/api/types", typesRouter);
 app.use("/api/elements", elementsRouter);
 app.use("/api/element", elementRouter);

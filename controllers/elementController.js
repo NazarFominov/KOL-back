@@ -1,6 +1,5 @@
 const Element = require("models/element")
 const List = require("models/list")
-const {addAlbum, deleteAlbum} = require("controllers/albumsMusicController")
 const path = require("path")
 const fs = require("fs")
 const gm = require("gm")
