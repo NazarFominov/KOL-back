@@ -1,5 +1,5 @@
 const Element = require("models/element")
-const List = require("models/list")
+const List = require("models/list/list")
 
 exports.getOneElementById = async function (id, req) {
     return Element.findOne({$and: [{secretKey: req.secretKeyId}, {_id: id}]});

@@ -1,6 +1,8 @@
 const Element = require("models/element")
-const List = require("models/list")
-const NoteList = require("models/noteList")
+const List = require("models/list/list")
+const NoteList = require("models/list/noteList")
+const RecipeList = require("models/list/recipe/recipeList")
+const Recipe = require("models/list/recipe/recipe")
 const {getOneListById} = require("./generalFunctions");
 const {getOneElementById, getOneListByElementId} = require("./generalFunctions");
 
@@ -66,5 +68,121 @@ exports.deleteNoteByListId = async function (id) {
     } catch (e) {
         console.log(e);
         return null
+    }
+}
+
+exports.editRecipe = async function (req, res) {
+    try {
+        if (!req.body) return res.sendStatus(500);
+        const recipe = req.body;
+
+        const {elementId} = req.params;
+        if (!elementId) return res.sendStatus(500);
+
+        let list = await getOneListByElementId(elementId, req);
+        if (!list) return res.sendStatus(404);
+
+        let recipeList = await RecipeList.findOne({list: list._id})
+        const _recipe = await Recipe.create({
+            name: recipe.name || "Нет названия",
+            types: recipe.types || [],
+            categories: recipe.categories || [],
+            ingredients: recipe.ingredients || [],
+            difficulty: recipe.difficulty || 2,
+            loveLevel: recipe.loveLevel || 3,
+            link: recipe.link || null,
+            note: recipe.note || null,
+        })
+
+        if (recipeList !== null) {
+            await RecipeList.findByIdAndUpdate(recipeList._id, {recipes: [...recipeList.recipes, _recipe._id]})
+        } else {
+            await RecipeList.create({
+                list: list._id,
+                recipes: [_recipe._id]
+            })
+        }
+
+        return res.sendStatus(204);
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+}
+
+exports.getRecipes = async function (req, res) {
+    try {
+        const {id} = req.query;
+
+        if (!id) return res.sendStatus(500)
+
+        const list = await getOneListByElementId(id, req);
+        if (list == null) return res.sendStatus(500)
+
+        let recipeList = await RecipeList.findOne({list: list._id})
+        if (recipeList === null) {
+            res.status(200)
+            return res.end(JSON.stringify([]))
+        }
+
+        let {recipes} = await RecipeList.populate(recipeList, {path: 'recipes'})
+        for (let recipe of recipes) {
+            recipe = await Recipe.populate(recipe, [{path: 'types'}, {path: 'categories'}, {path: 'ingredients'}]);
+        }
+
+        recipes = recipes.map(r => ({
+            id: r._id,
+            name: r.name,
+            types: r.types.map(el => ({
+                id: el._id,
+                name: el.name,
+                type: el.type || null
+            })),
+            categories: r.categories.map(el => ({
+                id: el._id,
+                name: el.name,
+                type: el.type || null
+            })),
+            ingredients: r.ingredients.map(el => ({
+                id: el._id,
+                name: el.name,
+                type: el.type || null
+            })),
+            difficulty: r.difficulty,
+            loveLevel: r.loveLevel,
+            link: r.link,
+            note: r.note,
+            timesCook: r.timesCook
+        }))
+
+        res.status(200)
+        res.end(JSON.stringify(recipes))
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+}
+
+exports.deleteRecipe = async function (req, res) {
+    try {
+        if (!req.body) return res.sendStatus(500);
+
+        const {elementId, recipeId} = req.params;
+        if (!elementId || !recipeId) return res.sendStatus(500);
+
+        let list = await getOneListByElementId(elementId, req);
+        if (!list) return res.sendStatus(404);
+
+        let recipeList = await RecipeList.findOne({list: list._id})
+        if (!recipeList) return res.sendStatus(500);
+
+        const newRecipes = recipeList.recipes.filter(r => r.toString() !== recipeId.toString());
+        await RecipeList.findByIdAndUpdate(recipeList._id, {recipes: newRecipes})
+        await Recipe.findByIdAndDelete(recipeId)
+
+        res.sendStatus(204)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
     }
 }

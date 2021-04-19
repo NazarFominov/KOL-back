@@ -1,8 +1,8 @@
 const ElementType = require("models/elementType")
-const ListType = require("models/listType")
-const {RecipeType} = require("models/forRecipe/typesForRecipe")
-const {RecipeCategory} = require("models/forRecipe/categoriesForRecipe")
-const {RecipeIngredient} = require("models/forRecipe/ingredientsForRecipe")
+const ListType = require("models/list/listType")
+const {RecipeType} = require("models/list/recipe/recipeType")
+const {RecipeCategory} = require("models/list/recipe/categoryRecipe")
+const {RecipeIngredient} = require("models/list/recipe/ingredientRecipe")
 const path = require("path")
 
 exports.getElementTypes = function (req, res) {
@@ -58,11 +58,11 @@ exports.addRecipeType = async function (req, res) {
     res.sendStatus(204)
 }
 
-exports.getRecipeTypes = async function (req, res) {
+exports.getRecipeTypes = async function (req, res)  {
     const recipeTypes = await RecipeType.find({}).exec();
 
     res.status(200);
-    res.end(JSON.stringify(recipeTypes))
+    res.end(JSON.stringify(recipeTypes.map(r => ({type: r.type, name: r.name, id: r._id}))))
 }
 
 exports.addRecipeCategory = async function (req, res) {
@@ -84,18 +84,17 @@ exports.getRecipeCategories = async function (req, res) {
     const recipeTypes = await RecipeCategory.find({}).exec();
 
     res.status(200);
-    res.end(JSON.stringify(recipeTypes))
+    res.end(JSON.stringify(recipeTypes.map(r => ({type: r.type, name: r.name, id: r._id}))))
 }
 
 exports.addRecipeIngredient = async function (req, res) {
     const {body} = req;
     if (!body) return res.sendStatus(500)
 
-    const {type, name} = body;
-    if (!type || !name) return res.sendStatus(500)
+    const {name} = body;
+    if (!name) return res.sendStatus(500)
 
     await RecipeIngredient.create({
-        type: type,
         name: name
     })
 
@@ -106,5 +105,5 @@ exports.getRecipeIngredients = async function (req, res) {
     const recipeTypes = await RecipeIngredient.find({}).exec();
 
     res.status(200);
-    res.end(JSON.stringify(recipeTypes))
+    res.end(JSON.stringify(recipeTypes.map(r => ({type: r.type, name: r.name, id: r._id}))))
 }

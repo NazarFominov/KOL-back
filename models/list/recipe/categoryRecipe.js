@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose;
 const {Types} = Schema;
 
-exports.RecipeCategory = mongoose.model("recipeCategory", new Schema({
+exports.RecipeCategory = mongoose.model("RecipeCategory", new Schema({
         type: {
             type: Types.String,
             maxLength: 30

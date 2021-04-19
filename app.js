@@ -10,6 +10,7 @@ const typesRouter = require("routes/typesRouter")
 const elementsRouter = require("routes/elementsRouter")
 const elementRouter = require("routes/elementRouter")
 const listRouter = require("./routes/listRouter");
+const recipeRouter = require("./routes/recipeRouter");
 
 const authController = require("controllers/authController")
 
@@ -29,6 +30,7 @@ app.use(function (req, res, next) {
 app.use(authController.checkSecretKey)
 
 app.use("/api/types", typesRouter);
+app.use("/api/recipe", recipeRouter);
 app.use("/api/elements", elementsRouter);
 app.use("/api/element", elementRouter);
 app.use("/api/list", listRouter);

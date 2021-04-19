@@ -1,5 +1,5 @@
 const Element = require("models/element")
-const List = require("models/list")
+const List = require("models/list/list")
 const path = require("path")
 const fs = require("fs")
 const gm = require("gm")
