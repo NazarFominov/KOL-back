@@ -71,7 +71,7 @@ exports.deleteNoteByListId = async function (id) {
     }
 }
 
-exports.editRecipe = async function (req, res) {
+exports.addRecipe = async function (req, res) {
     try {
         if (!req.body) return res.sendStatus(500);
         const recipe = req.body;
@@ -102,6 +102,40 @@ exports.editRecipe = async function (req, res) {
                 recipes: [_recipe._id]
             })
         }
+
+        return res.sendStatus(204);
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+}
+
+exports.editRecipe = async function (req, res) {
+    try {
+        if (!req.body) return res.sendStatus(500);
+        const recipe = req.body;
+
+        const {elementId, recipeId} = req.params;
+        if (!elementId || !recipeId) return res.sendStatus(500);
+
+        let list = await getOneListByElementId(elementId, req);
+        if (!list) return res.sendStatus(404);
+
+        let recipeList = await RecipeList.findOne({list: list._id})
+        if (!recipeList) return res.sendStatus(404);
+
+        const _recipe = {
+            name: recipe.name || "Нет названия",
+            types: recipe.types || [],
+            categories: recipe.categories || [],
+            ingredients: recipe.ingredients || [],
+            difficulty: recipe.difficulty || 2,
+            loveLevel: recipe.loveLevel || 3,
+            link: recipe.link || null,
+            note: recipe.note || null,
+        }
+
+        await Recipe.findByIdAndUpdate(recipeId, _recipe)
 
         return res.sendStatus(204);
     } catch (e) {
@@ -184,5 +218,16 @@ exports.deleteRecipe = async function (req, res) {
     } catch (e) {
         console.log(e)
         res.sendStatus(500)
+    }
+}
+
+exports.deleteRecipeListByListId = async function (id) {
+    if (!id) return null
+    try {
+        const list = await RecipeList.findOneAndDelete({list: id})
+        await Recipe.deleteMany({_id: {$in: list.recipes}})
+    } catch (e) {
+        console.log(e);
+        return null
     }
 }

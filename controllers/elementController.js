@@ -145,6 +145,9 @@ exports.deleteElement = async function (req, res) {
                             case 'notes':
                                 await listController.deleteNoteByListId(list._id)
                                 break;
+                            case 'recipes':
+                                await listController.deleteRecipeListByListId(list._id)
+                                break;
                         }
                         return res.sendStatus(204)
                     })
