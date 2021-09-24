@@ -186,7 +186,7 @@ exports.getRecipes = async function (req, res) {
             loveLevel: r.loveLevel,
             link: r.link,
             note: r.note,
-            timesCook: r.timesCook
+            priority: r.priority
         }))
 
         res.status(200)

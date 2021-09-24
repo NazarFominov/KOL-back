@@ -4,6 +4,7 @@ const ElementType = require("models/elementType")
 const List = require("models/list/list")
 const url = require('url');
 const mongoose = require('mongoose')
+const {getListTypes} = require("./typesController");
 const {Types} = mongoose.Schema;
 
 async function getParentsChain(children, chain = []) {
@@ -54,6 +55,12 @@ async function populateElements(elements) {
         .sort((a, b) => a.type.type > b.type.type ? 1 : -1)
 
     return elements;
+}
+
+async function populateLists(lists) {
+    lists = await List.populate(lists, [{path: 'list'}])
+
+    return lists;
 }
 
 exports.getElements = async function (req, res) {
@@ -166,6 +173,21 @@ exports.getFolders = async function (req, res) {
 
         res.status(200);
         res.end(JSON.stringify(folders))
+    } catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+}
+
+exports.getRecipesLists = async function (req, res) {
+    try {
+        const listTypes = await ListType.find({});
+        let elements = await Element.find({secretKey: req.secretKeyId});
+        elements = await populateElements(elements);
+        elements = elements.filter(e => e.listType && e.listType.type === 'recipes')
+
+        res.status(200);
+        res.end(JSON.stringify(elements))
     } catch (e) {
         console.log(e)
         return res.sendStatus(500)

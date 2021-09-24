@@ -11,6 +11,7 @@ const elementsRouter = require("routes/elementsRouter")
 const elementRouter = require("routes/elementRouter")
 const listRouter = require("./routes/listRouter");
 const recipeRouter = require("./routes/recipeRouter");
+const generatorRouter = require("./routes/generatorRouter");
 
 const authController = require("controllers/authController")
 
@@ -34,6 +35,7 @@ app.use("/api/recipe", recipeRouter);
 app.use("/api/elements", elementsRouter);
 app.use("/api/element", elementRouter);
 app.use("/api/list", listRouter);
+app.use("/api/generator", generatorRouter);
 
 app.use(function (req, res, next) {
     res.status(404).end("Not Found")
@@ -45,7 +47,8 @@ const options = {useNewUrlParser: true}
 mongoose.set('debug', true);
 mongoose.connect(uri, options, function (err) {
     if (err) return console.log(err);
-    app.listen(config.get("port"), process.env.NODE_HOST || 'localhost', function () {
-        console.log("Сервер ожидает подключения на %s:%s...", process.env.NODE_HOST || 'localhost', config.get("port"));
+    const port=3000||config.get("port");
+    app.listen(port, process.env.NODE_HOST || 'localhost', function () {
+        console.log("Сервер ожидает подключения на %s:%s...", process.env.NODE_HOST || 'localhost', port);
     });
 });

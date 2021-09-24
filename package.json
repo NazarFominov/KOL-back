@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "set NODE_PATH=.&& set NODE_ENV=development&& set NODE_HOST=localhost&& node app.js",
+    "local-test": "set NODE_PATH=.&& set NODE_ENV=development&& set NODE_HOST=192.168.0.12&& node app.js",
     "debug": "nodemon --inspect app.js"
   },
   "dependencies": {
     "audio-buffer": "^4.0.4",
     "body-parser": "^1.19.0",
+    "config": "^3.3.6",
     "connect": "^3.7.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",

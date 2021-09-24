@@ -7,5 +7,6 @@ elementsRouter.get("/", elementsController.getElements)
 elementsRouter.get("/search", elementsController.searchElements)
 elementsRouter.get("/favorites", elementsController.getFavorites)
 elementsRouter.get("/folders", elementsController.getFolders)
+elementsRouter.get("/recipes", elementsController.getRecipesLists)
 
 module.exports = elementsRouter

@@ -40,7 +40,7 @@ module.exports = mongoose.model("Recipe", new Schema({
         type: Types.String,
         maxLength: 1000
     },
-    timesCook: {
+    priority: {
         type: Types.Number,
         default: 0,
     }

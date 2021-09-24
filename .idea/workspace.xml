@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,10 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f61d4e2e-096c-475e-a72a-bb0f6d7c9a13" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/controllers/generatorController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/generatorRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/elementController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/elementController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/elementsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/elementsController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/listController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/listController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/listRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/listRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/list/recipe/recipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/list/recipe/recipe.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/elementsRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/elementsRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +58,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/models/recipe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/controllers" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -61,21 +70,21 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\controllers" />
+      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\routes" />
+      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\recipe" />
+      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\forRecipe" />
+      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\list" />
       <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\forRecipe" />
       <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models" />
       <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\old" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\recipe" />
-      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\routes" />
-      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models\forRecipe" />
-      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back\models" />
-      <recent name="C:\Users\nazar\Desktop\KOL\KOL-back" />
-    </key>
   </component>
-  <component name="RunManager" selected="Node.js.app.js">
+  <component name="RunManager" selected="npm.start">
     <configuration name="app.js" type="NodeJSConfigurationType" node-parameters="C:\Users\nazar\AppData\Roaming\npm\node_modules\nodemon\bin\nodemon" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
       <envs>
         <env name="NODE_PATH" value="." />
@@ -88,7 +97,7 @@
       <envs>
         <env name="NODE_PATH" value="." />
         <env name="NODE_ENV" value="development" />
-        <env name="NODE_HOST" value="192.168.0.95" />
+        <env name="NODE_HOST" value="192.168.0.12" />
       </envs>
       <method v="2" />
     </configuration>
@@ -99,9 +108,12 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="start" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
@@ -111,6 +123,11 @@
       <item itemvalue="Node.js.app.js" />
       <item itemvalue="npm.start" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -148,6 +165,16 @@
       <workItem from="1618751791791" duration="14044000" />
       <workItem from="1618850849201" duration="6003000" />
       <workItem from="1618932957115" duration="3131000" />
+      <workItem from="1619291312121" duration="1419000" />
+      <workItem from="1619347343690" duration="614000" />
+      <workItem from="1620114349085" duration="1198000" />
+      <workItem from="1631795132575" duration="2008000" />
+      <workItem from="1631910370471" duration="8185000" />
+      <workItem from="1631962723477" duration="12873000" />
+      <workItem from="1632138224582" duration="922000" />
+      <workItem from="1632149250794" duration="961000" />
+      <workItem from="1632171496514" duration="2686000" />
+      <workItem from="1632513892825" duration="2917000" />
     </task>
     <servers />
   </component>
@@ -165,59 +192,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618402277387">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618402277387" />
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1616622649679" />
-    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1618441300247">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618441300247" />
-    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1616625079863" />
-    <state x="548" y="167" key="FileChooserDialogImpl" timestamp="1618433952012">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="548" y="167" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618433952012" />
-    <state x="548" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1616622640738" />
-    <state x="647" y="310" key="Github.ShareDialog" timestamp="1618433814475">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="647" y="310" key="Github.ShareDialog/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618433814475" />
-    <state width="1515" height="275" key="GridCell.Tab.0.bottom" timestamp="1618786238312">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="275" key="GridCell.Tab.0.bottom/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618786238312" />
-    <state width="1515" height="257" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1617997853706" />
-    <state width="1515" height="275" key="GridCell.Tab.0.center" timestamp="1618786238312">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="275" key="GridCell.Tab.0.center/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618786238312" />
-    <state width="1515" height="257" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1617997853706" />
-    <state width="1515" height="275" key="GridCell.Tab.0.left" timestamp="1618786238312">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="275" key="GridCell.Tab.0.left/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618786238312" />
-    <state width="1515" height="257" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1617997853706" />
-    <state width="1515" height="275" key="GridCell.Tab.0.right" timestamp="1618786238312">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="275" key="GridCell.Tab.0.right/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618786238312" />
-    <state width="1515" height="257" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1617997853706" />
-    <state x="478" y="145" width="579" height="596" key="find.popup" timestamp="1618942070536">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="478" y="145" width="579" height="596" key="find.popup/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618942070536" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1618940317003">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618940317003" />
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1617981794165" />
-    <state x="599" y="197" width="405" height="627" key="svn.repositoryBrowser" timestamp="1618434105076">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="599" y="197" width="405" height="627" key="svn.repositoryBrowser/0.0.1536.824/-1920.0.1280.680@0.0.1536.824" timestamp="1618434105076" />
   </component>
 </project>
