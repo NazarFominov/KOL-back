@@ -1,10 +1,24 @@
 const Element = require("models/element")
 const List = require("models/list/list")
 const NoteList = require("models/list/noteList")
+const MenuList = require("models/list/menuList")
 const RecipeList = require("models/list/recipe/recipeList")
 const Recipe = require("models/list/recipe/recipe")
-const {getOneListById} = require("./generalFunctions");
-const {getOneElementById, getOneListByElementId} = require("./generalFunctions");
+const {getOneListByElementId} = require("./generalFunctions");
+
+async function populateMenu(menu) {
+    const m = Object.fromEntries(menu)
+    for (let key in m) {
+        for (let variantIndex = 0; variantIndex < m[key].length; variantIndex++) {
+            for (let recipeIndex = 0; recipeIndex < m[key][variantIndex].length; recipeIndex++) {
+                let recipe = await Recipe.findById(m[key][variantIndex][recipeIndex]);
+                recipe = await Recipe.populate(recipe, [{path: 'types'}, {path: 'categories'}, {path: 'ingredients'}]);
+                m[key][variantIndex][recipeIndex] = recipe;
+            }
+        }
+    }
+    return m;
+}
 
 exports.editNote = async function (req, res) {
     if (!req.body) return res.sendStatus(500);
@@ -226,6 +240,93 @@ exports.deleteRecipeListByListId = async function (id) {
     try {
         const list = await RecipeList.findOneAndDelete({list: id})
         await Recipe.deleteMany({_id: {$in: list.recipes}})
+    } catch (e) {
+        console.log(e);
+        return null
+    }
+}
+
+exports.editMenu = async function (req, res) {
+    if (!req.body) return res.sendStatus(500);
+
+    const {id} = req.body;
+
+    if (!id || !req.body.menu) return res.sendStatus(500);
+
+    try {
+        const list = await getOneListByElementId(id, req);
+        if (list === null) res.sendStatus(404);
+
+        const menu = await MenuList.findOne({list: list._id}).exec()
+        if (menu === null) await MenuList.create({
+            list: list._id,
+            menu: req.body.menu
+        })
+        else await MenuList.findOneAndUpdate({list: list._id}, {menu: req.body.menu})
+        await Element.findByIdAndUpdate(id, {timeOfEditing: new Date()})
+
+        res.sendStatus(204)
+    } catch (e) {
+        console.log(e)
+        return res.sendStatus(500);
+    }
+}
+
+exports.getMenu = async function (req, res) {
+    try {
+        const {id} = req.query;
+
+        if (!id) return res.sendStatus(500)
+
+        const list = await getOneListByElementId(id, req);
+        if (list == null) return res.sendStatus(500)
+
+        let menu = await MenuList.findOne({list: list._id})
+
+        res.status(200)
+        if (menu === null) {
+            return res.end(JSON.stringify({menu: null}))
+        }
+
+        await populateMenu(menu.menu)
+
+        res.end(JSON.stringify({id: menu._id, menu: menu.menu}))
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+}
+
+exports.getLastMenu = async function (req, res) {
+    try {
+        let menu;
+        const menus = await MenuList.find({})
+        if (menus.length > 1) {
+            for (let menu of menus) {
+                await MenuList.populate(menu, {path: 'list'})
+            }
+            for (let menu of menus) {
+                await List.populate(menu.list, {path: 'list'})
+            }
+
+            menus.sort((a, b) => new Date(b.list.list.timeOfEditing) - new Date(a.list.list.timeOfEditing));
+            menu = menus[0];
+        } else menu = menus[0];
+
+        await populateMenu(menu.menu);
+
+        res.status(200)
+        res.end(JSON.stringify({id: menu._id, menu: menu.menu}))
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(501)
+    }
+}
+
+exports.deleteMenuByListId = async function (id) {
+    if (!id) return null
+    try {
+        await MenuList.deleteOne({list: id}, null)
     } catch (e) {
         console.log(e);
         return null

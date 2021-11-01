@@ -11,6 +11,10 @@ const listTypeScheme = new Schema({
     name: {
         type: Types.String,
         maxLength: 50
+    },
+    isSelectable: {
+        type: Types.Bool,
+        default: false,
     }
 })
 

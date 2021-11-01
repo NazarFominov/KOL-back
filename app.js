@@ -1,7 +1,6 @@
 const config = require("config")
 const express = require("express")
 const mongoose = require("mongoose");
-const passport = require("passport");
 
 const morgan = require("morgan");
 const cors = require('cors')
@@ -16,10 +15,6 @@ const generatorRouter = require("./routes/generatorRouter");
 const authController = require("controllers/authController")
 
 const app = express();
-
-//**************************************************
-
-//**************************************************
 
 app.use(morgan('combined'));
 app.use(cors())
@@ -37,7 +32,7 @@ app.use("/api/element", elementRouter);
 app.use("/api/list", listRouter);
 app.use("/api/generator", generatorRouter);
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
     res.status(404).end("Not Found")
 });
 
@@ -47,7 +42,7 @@ const options = {useNewUrlParser: true}
 mongoose.set('debug', true);
 mongoose.connect(uri, options, function (err) {
     if (err) return console.log(err);
-    const port=3000||config.get("port");
+    const port = 3000 || config.get("port");
     app.listen(port, process.env.NODE_HOST || 'localhost', function () {
         console.log("Сервер ожидает подключения на %s:%s...", process.env.NODE_HOST || 'localhost', port);
     });

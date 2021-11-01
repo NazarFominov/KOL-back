@@ -1,53 +1,42 @@
 const Element = require("models/element")
 const List = require("models/list/list")
-const path = require("path")
-const fs = require("fs")
-const gm = require("gm")
-const resize = require('resize-img')
 const {getOneElementById} = require("./generalFunctions");
 const listController = require("./listController");
 
-exports.addElement = function (req, res) {
+exports.addElement = async function (req, res) {
     if (!req.body) return res.sendStatus(500);
 
     const {body} = req;
-    console.log(body)
-    Element.create({
-        parent: body.parentId,
-        type: body.typeId,
-        name: body.name || "Без имени",
-        description: body.description || "Без описания",
-        secretKey: req.secretKeyId,
-        timeOfEditing: new Date(),
-        timeOfCreation: new Date(),
-    }, function (err, element) {
-        if (err) {
-            console.log(err)
-            return res.sendStatus(500)
-        } else {
-            Element.populate(element, [{path: 'type', model: 'ElementType'}], function (err, element) {
-                if (err) return res.sendStatus(400);
-                if (element.type.type === 'list') {
-                    List.create({
-                            list: element.id,
-                            type: body.listTypeId,
-                            secretKey: req.secretKeyId
-                        }, function (err) {
-                            if (err) {
-                                console.log(err)
-                                return res.sendStatus(500)
-                            }
-                            res.sendStatus(204)
-                            console.log(element)
-                        }
-                    )
-                } else {
-                    res.sendStatus(204)
-                    console.log(element)
-                }
+
+    try {
+        let element = await Element.create({
+            parent: body.parentId,
+            type: body.typeId,
+            name: body.name || "Без имени",
+            description: body.description || "Без описания",
+            secretKey: req.secretKeyId,
+            timeOfEditing: new Date(),
+            timeOfCreation: new Date(),
+        });
+        await Element.populate(element, [{path: 'type', model: 'ElementType'}]);
+
+        console.log(element)
+        res.status(200)
+        if (element.type.type === 'list') {
+            const list = await List.create({
+                list: element.id,
+                type: body.listTypeId,
+                secretKey: req.secretKeyId
             })
+            res.end(JSON.stringify({id: element._id, listId: list._id}))
+        } else {
+            res.end(JSON.stringify({id: element._id}));
         }
-    })
+    } catch (e) {
+        console.log(e)
+        return res.sendStatus(500);
+    }
+
 }
 
 exports.editElement = async function (req, res) {
@@ -147,6 +136,9 @@ exports.deleteElement = async function (req, res) {
                                 break;
                             case 'recipes':
                                 await listController.deleteRecipeListByListId(list._id)
+                                break;
+                            case 'menu':
+                                await listController.deleteMenuByListId(list._id)
                                 break;
                         }
                         return res.sendStatus(204)

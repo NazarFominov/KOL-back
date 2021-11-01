@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "set NODE_PATH=.&& set NODE_ENV=development&& set NODE_HOST=localhost&& node app.js",
-    "local-test": "set NODE_PATH=.&& set NODE_ENV=development&& set NODE_HOST=192.168.0.12&& node app.js",
+    "local-test": "set NODE_PATH=.&& set NODE_ENV=development&& set NODE_HOST=95.32.73.101&& node app.js",
     "debug": "nodemon --inspect app.js"
   },
   "dependencies": {

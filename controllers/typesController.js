@@ -3,7 +3,6 @@ const ListType = require("models/list/listType")
 const {RecipeType} = require("models/list/recipe/recipeType")
 const {RecipeCategory} = require("models/list/recipe/categoryRecipe")
 const {RecipeIngredient} = require("models/list/recipe/ingredientRecipe")
-const path = require("path")
 
 exports.getElementTypes = function (req, res) {
     ElementType.find({})
@@ -24,7 +23,7 @@ exports.getElementTypes = function (req, res) {
         });
 }
 
-exports.getListTypes = function (req, res) {
+exports.getListTypes = async function (req, res) {
     ListType.find({})
         .exec(function (err, types) {
             if (err) {
@@ -35,7 +34,8 @@ exports.getListTypes = function (req, res) {
             types = types.map(t => ({
                 id: t._id,
                 name: t._doc.name,
-                type: t._doc.type
+                type: t._doc.type,
+                isSelectable: t._doc.isSelectable
             })).sort((a, b) => a.name > b.name ? 1 : -1)
 
             res.status(200);
@@ -58,7 +58,7 @@ exports.addRecipeType = async function (req, res) {
     res.sendStatus(204)
 }
 
-exports.getRecipeTypes = async function (req, res)  {
+exports.getRecipeTypes = async function (req, res) {
     const recipeTypes = await RecipeType.find({}).exec();
 
     res.status(200);
